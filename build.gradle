@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.51'
+        kotlinVersion = '1.2.71'
         springBootVersion = '2.0.6.RELEASE'
     }
     repositories {
@@ -45,6 +45,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
     implementation('org.springframework.retry:spring-retry')
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
