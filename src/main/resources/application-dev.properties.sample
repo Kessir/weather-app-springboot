@@ -1,0 +1,4 @@
+spring.application.name = WeatherService-DEV
+some.rate=5000
+server.port=8081
+spring.data.mongodb.database=weather

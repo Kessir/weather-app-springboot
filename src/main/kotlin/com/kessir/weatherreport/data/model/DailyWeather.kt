@@ -1,14 +1,16 @@
-package com.kessir.weatherreport.data
+package com.kessir.weatherreport.data.model
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
-data class DailyWeather (
-        @Id val id: String,
+@Document
+data class DailyWeather(
         val locationName: String,
         val locationId: Long,
         val maxTemp: Int,
         val minTemp: Int,
         val averageTemp: Int,
-        val date: Date
+        val date: Date = Date(),
+        @Id val id: String = ""
 )

@@ -1,4 +1,4 @@
-package com.kessir.weatherreport
+package com.kessir.weatherreport.data.model
 
 import java.util.*
 

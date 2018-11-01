@@ -1,6 +1,7 @@
 package com.kessir.weatherreport
 
-import com.kessir.weatherreport.data.DailyWeather
+import com.kessir.weatherreport.data.model.DailyWeather
+import com.kessir.weatherreport.data.model.WeatherApiResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
