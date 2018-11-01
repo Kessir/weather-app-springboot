@@ -11,6 +11,6 @@ data class DailyWeather(
         val maxTemp: Int,
         val minTemp: Int,
         val averageTemp: Int,
-        val date: Date = Date(),
+        val date: String = "",
         @Id val id: String = ""
 )

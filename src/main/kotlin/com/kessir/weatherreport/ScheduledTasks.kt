@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
 
-const val DEFAULT_INTERVAL_IN_MS = 60_000L
+const val DEFAULT_INTERVAL_IN_MS = 600_000L
 
 @Component
 class ScheduledTasks(private val apiClient: WeatherApiClient) {
@@ -19,10 +19,10 @@ class ScheduledTasks(private val apiClient: WeatherApiClient) {
     lateinit var weatherRepository: WeatherRepository
 
     @Scheduled(fixedDelayString = "\${some.rate:$DEFAULT_INTERVAL_IN_MS}")
-    fun printTime(){
-        val result = apiClient.test()
-            System.out.println("======== HELLO =========")
-            System.out.println(result)
+    fun printTime() {
+        val result = apiClient.getWeatherByLocationName("Paris")
+        System.out.println(result)
+        weatherRepository.saveAll(result)
 
     }
 }

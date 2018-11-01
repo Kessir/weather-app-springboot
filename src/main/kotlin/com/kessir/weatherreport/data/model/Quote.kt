@@ -7,7 +7,7 @@ data class WeatherApiResponse(val list: List<SingleReport>, val city: City)
 
 data class City(val id: Long, val name:String, val country: String)
 
-data class SingleReport(val main: Temps, val dt_txt: Date)
+data class SingleReport(val main: Temps, val dt_txt: String)
 
 data class Temps(
         val temp: Int,
