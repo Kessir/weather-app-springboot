@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.scheduling.annotation.EnableScheduling
+import java.time.LocalDateTime
 
 @SpringBootApplication
 @EnableScheduling
@@ -24,7 +25,8 @@ class WeatherReportApplication : CommandLineRunner {
                         1,
                         30,
                         30,
-                        30
+                        30,
+                        LocalDateTime.now()
                 ))
     }
 }

@@ -26,12 +26,5 @@ class OpenWeatherClient : WeatherApiClient {
             )
         } ?: emptyList()
     }
-
-    override fun test(): String? {
-        val restTemplate = RestTemplate()
-        val quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", String::class.java)
-
-        return quote
-    }
 }
 
