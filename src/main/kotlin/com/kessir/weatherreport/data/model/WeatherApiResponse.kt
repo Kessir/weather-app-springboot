@@ -22,13 +22,3 @@ data class Temps(
         val temp_max: Double
 )
 
-data class Weather(
-        val locationName: String,
-        val locationId: Long,
-        val maxTemp: Double,
-        val minTemp: Double,
-        val averageTemp: Double,
-        val date: LocalDateTime,
-        val updatedAt: LocalDateTime = LocalDateTime.now(),
-        @Id val id: String = UUID.randomUUID().toString()
-)

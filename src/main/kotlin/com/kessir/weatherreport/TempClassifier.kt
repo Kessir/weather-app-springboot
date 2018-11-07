@@ -2,14 +2,13 @@ package com.kessir.weatherreport
 
 import com.kessir.weatherreport.data.model.AlertSatus
 import com.kessir.weatherreport.data.model.DailyWeather
-import com.kessir.weatherreport.data.model.Weather
 import org.springframework.stereotype.Component
 
 @Component
 class TempClassifier() {
     val UPPER_LIMIT = 30.0
     val LOWER_LIMIT = -2.0
-    fun classify(weather: Weather): DailyWeather {
+    fun classify(weather: DailyWeather): DailyWeather {
         return DailyWeather(
                 locationName = weather.locationName,
                 locationId = weather.locationId,
