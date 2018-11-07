@@ -9,10 +9,15 @@ import java.util.*
 data class DailyWeather(
         val locationName: String,
         val locationId: Long,
-        val maxTemp: Int,
-        val minTemp: Int,
-        val averageTemp: Int,
+        val maxTemp: Double,
+        val minTemp: Double,
+        val averageTemp: Double,
         val date: LocalDateTime,
+        val status: AlertSatus = AlertSatus.NORMAL,
         val updatedAt: LocalDateTime = LocalDateTime.now(),
         @Id val id: String = UUID.randomUUID().toString()
 )
+
+enum class AlertSatus{
+    NORMAL, EXTREME_LOW, EXTREME_HIGH
+}

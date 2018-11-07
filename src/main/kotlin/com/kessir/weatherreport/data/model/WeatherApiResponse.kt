@@ -1,6 +1,8 @@
 package com.kessir.weatherreport.data.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 import java.util.*
 
@@ -15,7 +17,18 @@ data class SingleReport(
 )
 
 data class Temps(
-        val temp: Int,
-        val temp_min: Int,
-        val temp_max: Int
+        val temp: Double,
+        val temp_min: Double,
+        val temp_max: Double
+)
+
+data class Weather(
+        val locationName: String,
+        val locationId: Long,
+        val maxTemp: Double,
+        val minTemp: Double,
+        val averageTemp: Double,
+        val date: LocalDateTime,
+        val updatedAt: LocalDateTime = LocalDateTime.now(),
+        @Id val id: String = UUID.randomUUID().toString()
 )

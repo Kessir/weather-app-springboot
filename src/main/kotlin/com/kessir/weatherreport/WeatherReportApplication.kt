@@ -19,15 +19,15 @@ class WeatherReportApplication : CommandLineRunner {
     override fun run(vararg args: String?) {
         weatherRepository.deleteAll();
 
-        weatherRepository.save(
-                DailyWeather(
-                        "Paris",
-                        1,
-                        30,
-                        30,
-                        30,
-                        LocalDateTime.now()
-                ))
+//        weatherRepository.save(
+//                DailyWeather(
+//                        "Paris",
+//                        1,
+//                        30.0,
+//                        30.0,
+//                        30.0,
+//                        LocalDateTime.now()
+//                ))
     }
 }
 
