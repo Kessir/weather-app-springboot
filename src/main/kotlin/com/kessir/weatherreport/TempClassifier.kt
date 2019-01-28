@@ -6,12 +6,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class TempClassifier() {
-    val UPPER_LIMIT = 30.0
-    val LOWER_LIMIT = -2.0
-    fun classify(weather: DailyWeather): DailyWeather {
+    fun classify(weather: DailyWeather, minTemp: Double, maxTemp: Double): DailyWeather {
         return DailyWeather(
-                locationName = weather.locationName,
-                locationId = weather.locationId,
                 maxTemp = weather.maxTemp,
                 minTemp = weather.minTemp,
                 averageTemp = weather.averageTemp,
@@ -19,13 +15,13 @@ class TempClassifier() {
                 status = getStatus(
                         minTemp = weather.minTemp,
                         maxTemp = weather.maxTemp,
-                        lowerLimit = LOWER_LIMIT,
-                        upperLimit = UPPER_LIMIT
+                        lowerLimit = minTemp,
+                        upperLimit = maxTemp
                 )
         )
     }
 
-    fun getStatus(minTemp: Double, maxTemp: Double, lowerLimit: Double, upperLimit: Double): AlertSatus {
+    private fun getStatus(minTemp: Double, maxTemp: Double, lowerLimit: Double, upperLimit: Double): AlertSatus {
         if (maxTemp > upperLimit) return AlertSatus.EXTREME_HIGH
         if (minTemp < lowerLimit) return AlertSatus.EXTREME_LOW
         return AlertSatus.NORMAL
