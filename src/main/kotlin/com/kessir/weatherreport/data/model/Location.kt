@@ -1,5 +1,6 @@
 package com.kessir.weatherreport.data.model
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.springframework.data.annotation.Id
 import java.util.*
 

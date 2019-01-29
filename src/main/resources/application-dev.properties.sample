@@ -3,5 +3,4 @@ server.port=8081
 spring.data.mongodb.database=weather
 
 fetch.rate=5000
-default.maxtemp=40
-default.mintemp=-10
+openweather.appId=

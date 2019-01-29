@@ -1,4 +1,5 @@
+city, countryCode, lat, lon, minTempLimit, maxTempLimit
 Helsinki, FI, 60.16, 24.93, -5, 35
-Paris, FR, 48.86, 2.34, -5, 35
+Paris, FR, 48.86, 2.34, 0, 35
 Libreville, GA, 0.39, 9.45, 10, 35
-Tallinn, ET, 59.43, 24.75, -10, 35
+Tallinn, EE, 59.43, 24.75, -5, 35

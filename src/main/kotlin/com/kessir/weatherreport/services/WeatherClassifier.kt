@@ -1,11 +1,12 @@
-package com.kessir.weatherreport
+package com.kessir.weatherreport.services
 
 import com.kessir.weatherreport.data.model.AlertSatus
 import com.kessir.weatherreport.data.model.DailyWeather
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
-class TempClassifier() {
+@Service
+class WeatherClassifier() {
     fun classify(weather: DailyWeather, minTemp: Double, maxTemp: Double): DailyWeather {
         return DailyWeather(
                 maxTemp = weather.maxTemp,
