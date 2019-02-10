@@ -1,6 +1,7 @@
 spring.application.name = WeatherService-DEV
 server.port=8081
 spring.data.mongodb.database=weather
+spring.batch.job.enabled=false
 
 fetch.rate=5000
 openweather.appId=

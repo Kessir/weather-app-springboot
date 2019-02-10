@@ -1,10 +1,12 @@
 package com.kessir.weatherreport
 
-import com.kessir.weatherreport.data.WeatherRepository
-import com.kessir.weatherreport.data.model.Location
 import com.kessir.weatherreport.services.AppDataService
-import com.kessir.weatherreport.utils.CsvReader
+import com.kessir.weatherreport.services.LocationsService
+import com.kessir.weatherreport.services.TemperaturesService
+import com.kessir.weatherreport.utils.CsvParser
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -12,34 +14,34 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
 @EnableScheduling
-class WeatherReportApplication(val weatherRepository: WeatherRepository, val appDataService: AppDataService)
+@EnableBatchProcessing
+class WeatherReportApplication(val locationsService: LocationsService, val temperaturesService: TemperaturesService)
     : CommandLineRunner {
-    var logger = LoggerFactory.getLogger(WeatherReportApplication::class.java)
 
     override fun run(vararg args: String?) {
-        if (!appDataService.isAppDataSetUp()) {
+        if (locationsService.getAll().isEmpty()) {
             initialDataSetUp()
         }
     }
 
     private fun initialDataSetUp() {
-        logger.debug("Initial data set up")
+        println("Initial data set up")
 
-        weatherRepository.deleteAll()
+        temperaturesService.deleteAll()
 
-        val locations = CsvReader().loadLocationsList("locations.csv")
+        val locations = CsvParser().loadLocationsList("locations.csv")
 
         if (locations.isEmpty()) {
-            logger.error("Could not load any location. Exiting the app")
-            return
+            println("Could not load any location. Exiting the app")
+            throw RuntimeException("Could not load any location.")
+
         }
+        locationsService.saveAll(locations)
 
-        appDataService.updateData(dataFetchIntervalSec = 300, locations = locations)
-
-        launchDataFetchJobs(locations)
+        launchDataFetchJobs()
     }
 
-    private fun launchDataFetchJobs(locations: List<Location>) {
+    private fun launchDataFetchJobs() {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

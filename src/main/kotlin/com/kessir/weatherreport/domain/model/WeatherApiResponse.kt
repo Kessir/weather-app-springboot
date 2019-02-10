@@ -1,10 +1,7 @@
-package com.kessir.weatherreport.data.model
+package com.kessir.weatherreport.domain.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import org.springframework.data.annotation.Id
-import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
-import java.util.*
 
 data class WeatherApiResponse(val list: List<SingleReport>, val city: City)
 

@@ -1,14 +1,12 @@
 package com.kessir.weatherreport.services
 
-import com.kessir.weatherreport.data.model.AlertSatus
-import com.kessir.weatherreport.data.model.DailyWeather
-import org.springframework.stereotype.Component
+import com.kessir.weatherreport.domain.model.*
 import org.springframework.stereotype.Service
 
 @Service
 class WeatherClassifier() {
-    fun classify(weather: DailyWeather, minTemp: Double, maxTemp: Double): DailyWeather {
-        return DailyWeather(
+    private fun classify(weather: Temperature, minTemp: Double, maxTemp: Double): Temperature {
+        return Temperature(
                 maxTemp = weather.maxTemp,
                 minTemp = weather.minTemp,
                 averageTemp = weather.averageTemp,
@@ -26,5 +24,18 @@ class WeatherClassifier() {
         if (maxTemp > upperLimit) return AlertSatus.EXTREME_HIGH
         if (minTemp < lowerLimit) return AlertSatus.EXTREME_LOW
         return AlertSatus.NORMAL
+    }
+
+    fun classify(temperatures: List<Temperature>, location: Location): LocationTemps{
+        val processedTemperatures = temperatures.map {
+            classify(it, location.minTempLimit, location.maxTempLimit)
+        }
+
+        return LocationTemps(
+                locationId = location.id,
+                city = location.city,
+                countryCode = location.countryCode,
+                temperatures = processedTemperatures
+        )
     }
 }

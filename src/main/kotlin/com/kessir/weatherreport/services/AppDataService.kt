@@ -1,22 +1,11 @@
 package com.kessir.weatherreport.services
 
-import com.kessir.weatherreport.data.AppDataRepository
-import com.kessir.weatherreport.data.model.AppData
-import com.kessir.weatherreport.data.model.Location
+import com.kessir.weatherreport.domain.AppDataRepository
+import com.kessir.weatherreport.domain.model.AppData
 import org.springframework.stereotype.Service
 
 @Service
 class AppDataService(val appDataRepository: AppDataRepository) {
-
-    fun getLocations(): List<Location> {
-        val result = appDataRepository.findById(APP_DATA_ID)
-
-        return if (result.isPresent) {
-            result.get().locations
-        } else {
-            emptyList()
-        }
-    }
 
     fun isAppDataSetUp(): Boolean  =  appDataRepository.count() > 0
 
@@ -30,12 +19,10 @@ class AppDataService(val appDataRepository: AppDataRepository) {
         }
     }
 
-    fun updateData(locations: List<Location>, dataFetchIntervalSec: Int = DEFAULT_INTERVAL_IN_S) {
-
+    fun updateData(dataFetchIntervalSec: Int = DEFAULT_INTERVAL_IN_S) {
         appDataRepository.save(
                 AppData(id = APP_DATA_ID,
-                dataFetchIntervalSec = dataFetchIntervalSec,
-                locations = locations))
+                dataFetchIntervalSec = dataFetchIntervalSec))
     }
 
     companion object {

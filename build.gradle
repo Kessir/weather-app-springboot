@@ -48,6 +48,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
     implementation('com.fasterxml.jackson.dataformat:jackson-dataformat-csv')
+    implementation("org.springframework.boot:spring-boot-starter-batch")
+    implementation("org.hsqldb:hsqldb")
     implementation('org.springframework.retry:spring-retry')
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

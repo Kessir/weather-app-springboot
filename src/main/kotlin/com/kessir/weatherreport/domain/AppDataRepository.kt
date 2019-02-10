@@ -1,6 +1,6 @@
-package com.kessir.weatherreport.data
+package com.kessir.weatherreport.domain
 
-import com.kessir.weatherreport.data.model.AppData
+import com.kessir.weatherreport.domain.model.AppData
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

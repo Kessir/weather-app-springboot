@@ -1,8 +1,8 @@
-package com.kessir.weatherreport.data.model
+package com.kessir.weatherreport.domain.model
 
 import java.time.LocalDateTime
 
-data class DailyWeather(
+data class Temperature(
         val maxTemp: Double,
         val minTemp: Double,
         val averageTemp: Double,

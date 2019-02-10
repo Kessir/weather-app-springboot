@@ -1,7 +1,7 @@
-package com.kessir.weatherreport.data
+package com.kessir.weatherreport.domain
 
-import com.kessir.weatherreport.data.model.DailyWeather
-import com.kessir.weatherreport.data.model.WeatherApiResponse
+import com.kessir.weatherreport.domain.model.Temperature
+import com.kessir.weatherreport.domain.model.WeatherApiResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -10,14 +10,14 @@ import org.springframework.web.util.UriComponentsBuilder
 
 
 @Component
-class OpenWeatherClient : WeatherApiClient {
+class OpenWeatherDataSource : WeatherDataSource {
 
     private val restTemplate = RestTemplate()
 
     @Value("\${openweather.appId}")
     private lateinit var APPID: String
 
-    override fun getWeatherByLatLong(lat: Double, lon: Double): List<DailyWeather> {
+    override fun getWeatherByLatLong(lat: Double, lon: Double): List<Temperature> {
         val builder = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                 .queryParam("APPID", APPID)
                 .queryParam("lat", lat)
@@ -26,7 +26,7 @@ class OpenWeatherClient : WeatherApiClient {
         return getTemps(builder.toUriString())
     }
 
-    override fun getWeatherByLocationName(location: String, countryCode: String): List<DailyWeather> {
+    override fun getWeatherByLocationName(location: String, countryCode: String): List<Temperature> {
         val builder = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                 .queryParam("APPID", APPID)
                 .queryParam("q", "$location, $countryCode")
@@ -34,11 +34,11 @@ class OpenWeatherClient : WeatherApiClient {
         return getTemps(builder.toUriString())
     }
 
-    private fun getTemps(fullUrl: String): List<DailyWeather> {
+    private fun getTemps(fullUrl: String): List<Temperature> {
         val response: WeatherApiResponse? = restTemplate.getForObject(fullUrl, WeatherApiResponse::class.java)
 
         return response?.list?.map {
-            DailyWeather(
+            Temperature(
                     maxTemp = it.main.temp_max,
                     minTemp = it.main.temp_min,
                     averageTemp = it.main.temp,
