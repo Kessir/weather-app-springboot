@@ -1,8 +1,7 @@
 package com.kessir.weatherreport.domain
 
-import com.kessir.weatherreport.domain.model.Temperature
+import com.kessir.weatherreport.domain.model.UnprocessedTemperature
 
 interface WeatherDataSource {
-    fun getWeatherByLocationName(location: String, countryCode: String): List<Temperature>
-    fun getWeatherByLatLong(lat: Double, lon: Double): List<Temperature>
+    fun getWeatherByLatLong(lat: Double, lon: Double): List<UnprocessedTemperature>
 }

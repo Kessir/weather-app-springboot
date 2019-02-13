@@ -1,12 +1,9 @@
 package com.kessir.weatherreport.web
 
 import com.kessir.weatherreport.domain.model.Location
-import com.kessir.weatherreport.domain.model.LocationTemps
 import com.kessir.weatherreport.services.LocationsService
-import com.kessir.weatherreport.services.TemperaturesService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 
 @RestController
@@ -19,16 +16,10 @@ class LocationsController(val locationsService: LocationsService) {
     }
 
     @GetMapping("/locations/{id}")
-    fun getLocation(@PathVariable id: String): Optional<Location> {
-        return locationsService.findById(id)
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    private fun handleVinNotFound(ex: LocationNotFoundException) {
+    fun getLocation(@PathVariable id: String): Location {
+        return locationsService.findById(id) ?: throw LocationNotFoundException()
     }
 }
 
-class LocationNotFoundException : Exception() {
-
-}
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Location not found")
+class LocationNotFoundException : RuntimeException()

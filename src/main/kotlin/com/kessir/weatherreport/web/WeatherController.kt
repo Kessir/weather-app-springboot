@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 class WeatherController(val temperaturesService: TemperaturesService) {
 
     @GetMapping("/weather")
-    fun getWeather(): List<LocationTemps> {
+    fun getWeather(): Iterable<LocationTemps> {
         return temperaturesService.getAll()
+    }
+
+    @GetMapping("/weather/{locationId}")
+    fun getLocationWeather(@PathVariable locationId: String): LocationTemps {
+        return temperaturesService.findById(locationId) ?: throw LocationNotFoundException()
     }
 }

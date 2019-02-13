@@ -1,18 +1,12 @@
 package com.kessir.weatherreport.batch
 
-import com.kessir.weatherreport.domain.LocationsRepository
-import com.kessir.weatherreport.services.WeatherClassifier
-import com.kessir.weatherreport.domain.WeatherDataSource
-import com.kessir.weatherreport.domain.WeatherRepository
-import com.kessir.weatherreport.domain.model.Location
 import org.springframework.batch.core.Job
+import org.springframework.batch.core.JobParametersBuilder
+import org.springframework.batch.core.launch.JobLauncher
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import org.springframework.batch.core.JobParametersBuilder
-import org.springframework.batch.core.JobParameters
 import java.util.*
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.batch.core.launch.JobLauncher
 
 
 @Component
@@ -30,7 +24,7 @@ class ScheduledTasks(val jobLauncher: JobLauncher) {
 
         val execution = jobLauncher.run(job, param)
 
-        println("Job finished with status :" + execution.getStatus())
+        println("Job finished with status :" + execution.status)
     }
 
 

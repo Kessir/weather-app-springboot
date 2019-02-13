@@ -2,6 +2,7 @@ package com.kessir.weatherreport.services
 
 import com.kessir.weatherreport.domain.LocationsRepository
 import com.kessir.weatherreport.domain.model.Location
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -15,7 +16,6 @@ class LocationsService(private val locationsRepository: LocationsRepository) {
         locationsRepository.saveAll(locations)
     }
 
-    fun findById(id: String): Optional<Location> {
-        return locationsRepository.findById(id)
-    }
+    fun findById(id: String): Location? =
+            locationsRepository.findByIdOrNull(id)
 }

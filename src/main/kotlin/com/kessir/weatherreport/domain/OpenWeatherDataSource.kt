@@ -1,12 +1,11 @@
 package com.kessir.weatherreport.domain
 
-import com.kessir.weatherreport.domain.model.Temperature
+import com.kessir.weatherreport.domain.model.UnprocessedTemperature
 import com.kessir.weatherreport.domain.model.WeatherApiResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
-
 
 
 @Component
@@ -17,7 +16,7 @@ class OpenWeatherDataSource : WeatherDataSource {
     @Value("\${openweather.appId}")
     private lateinit var APPID: String
 
-    override fun getWeatherByLatLong(lat: Double, lon: Double): List<Temperature> {
+    override fun getWeatherByLatLong(lat: Double, lon: Double): List<UnprocessedTemperature> {
         val builder = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                 .queryParam("APPID", APPID)
                 .queryParam("lat", lat)
@@ -26,19 +25,11 @@ class OpenWeatherDataSource : WeatherDataSource {
         return getTemps(builder.toUriString())
     }
 
-    override fun getWeatherByLocationName(location: String, countryCode: String): List<Temperature> {
-        val builder = UriComponentsBuilder.fromHttpUrl(BASE_URL)
-                .queryParam("APPID", APPID)
-                .queryParam("q", "$location, $countryCode")
-
-        return getTemps(builder.toUriString())
-    }
-
-    private fun getTemps(fullUrl: String): List<Temperature> {
+    private fun getTemps(fullUrl: String): List<UnprocessedTemperature> {
         val response: WeatherApiResponse? = restTemplate.getForObject(fullUrl, WeatherApiResponse::class.java)
 
         return response?.list?.map {
-            Temperature(
+            UnprocessedTemperature(
                     maxTemp = it.main.temp_max,
                     minTemp = it.main.temp_min,
                     averageTemp = it.main.temp,

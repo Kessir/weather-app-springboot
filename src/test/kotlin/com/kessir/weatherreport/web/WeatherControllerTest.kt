@@ -1,6 +1,9 @@
 package com.kessir.weatherreport.web
 
+import com.kessir.weatherreport.domain.model.AlertStatus
 import com.kessir.weatherreport.domain.model.Location
+import com.kessir.weatherreport.domain.model.LocationTemps
+import com.kessir.weatherreport.domain.model.Temperature
 import com.kessir.weatherreport.services.LocationsService
 import com.kessir.weatherreport.services.TemperaturesService
 import org.junit.Test
@@ -16,12 +19,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import java.time.LocalDateTime
 
 
 @RunWith(SpringRunner::class)
-@WebMvcTest(LocationsController::class)
-class LocationsControllerTest {
+@WebMvcTest(WeatherController::class)
+class WeatherControllerTest {
+    private val LOCATION_1 = Location("Lisbon", "PG", 1.0, 1.0, 10.0, 30.0, "ee7e960c-7500-4cad-b86e-cbe35044697e")
 
+    private val TEMPS_1 = LocationTemps(
+            locationId = LOCATION_1.id,
+            countryCode = LOCATION_1.countryCode,
+            city = LOCATION_1.city,
+            temperatures = listOf(Temperature(30.0,21.3, 25.0, LocalDateTime.of(2019,2,5,10,30), AlertStatus.EXTREME_HIGH ))
+    )
     @Autowired
     private lateinit var mockMvc: MockMvc
 
@@ -31,30 +42,28 @@ class LocationsControllerTest {
     @MockBean
     private lateinit var temperaturesService: TemperaturesService
 
-    private val LOCATION_1 = Location("Lisbon", "PG", 1.0, 1.0, 10.0, 30.0, "ee7e960c-7500-4cad-b86e-cbe35044697e")
-
     @Test
-    fun `get list of locations`() {
-        given(this.locationsService.getAll())
-                .willReturn(listOf(LOCATION_1))
+    fun `get temperatures for all locations`() {
+        given(this.temperaturesService.getAll())
+                .willReturn(listOf(TEMPS_1))
 
-        val expectedJson = """[{"city":"Lisbon","countryCode":"PG","latitude":1.0,"longitude":1.0,"minTempLimit":10.0,"maxTempLimit":30.0,"id":"ee7e960c-7500-4cad-b86e-cbe35044697e"}]"""
+        val expectedJson = """[{"locationId":"ee7e960c-7500-4cad-b86e-cbe35044697e","city":"Lisbon","countryCode":"PG","temperatures":[{"maxTemp":30.0,"minTemp":21.3,"averageTemp":25.0,"date":"2019-02-05T10:30:00","status":"EXTREME_HIGH"}]}]"""
 
-        this.mockMvc.perform(get("/api/locations")
+        this.mockMvc.perform(get("/api/weather")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk)
                 .andExpect(content().json(expectedJson));
     }
 
     @Test
-    fun `return single location when it exists`() {
-        val locationId = "random-id"
-        given(this.locationsService.findById(locationId))
-                .willReturn(LOCATION_1)
+    fun `get temperature for single location`() {
+        given(this.temperaturesService.findById(LOCATION_1.id))
+                .willReturn(TEMPS_1)
 
-        val expectedJson = """{"city":"Lisbon","countryCode":"PG","latitude":1.0,"longitude":1.0,"minTempLimit":10.0,"maxTempLimit":30.0,"id":"ee7e960c-7500-4cad-b86e-cbe35044697e"}"""
+        val expectedJson = """{"locationId":"ee7e960c-7500-4cad-b86e-cbe35044697e","city":"Lisbon","countryCode":"PG","temperatures":[{"maxTemp":30.0,"minTemp":21.3,"averageTemp":25.0,"date":"2019-02-05T10:30:00","status":"EXTREME_HIGH"}]}
+"""
 
-        this.mockMvc.perform(get("/api/locations/$locationId").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/api/weather/${LOCATION_1.id}").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk)
                 .andExpect(content().json(expectedJson));
     }
@@ -66,7 +75,7 @@ class LocationsControllerTest {
                 .willReturn(null)
 
 
-        this.mockMvc.perform(get("/api/locations/$locationId")
+        this.mockMvc.perform(get("/api/weather/$locationId")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is4xxClientError)

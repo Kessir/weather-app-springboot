@@ -7,8 +7,5 @@ data class Temperature(
         val minTemp: Double,
         val averageTemp: Double,
         val date: LocalDateTime,
-        val status: AlertSatus = AlertSatus.UNPROCESSED)
+        val status: AlertStatus)
 
-enum class AlertSatus {
-    UNPROCESSED, NORMAL, EXTREME_LOW, EXTREME_HIGH
-}
